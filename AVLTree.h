@@ -12,6 +12,8 @@ public:
 
     int getHeight(){};
 
+    int getSize(){};
+
     friend ostream &operator<<(ostream &os, const AVLTree &me){};
 
     bool find(int key, string &value){};
