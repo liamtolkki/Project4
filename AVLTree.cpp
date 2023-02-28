@@ -1,10 +1,34 @@
 #include "AVLTree.h"
-#include <string>
+using namespace std;
 
-AVLTree::AVLTree()
+AVLTree::AVLTree() // default constructor
 {
 }
 
-bool AVLTree::insert(int key, std::string value)
+AVLTree::~AVLTree() // default destructor
+{
+}
+
+bool AVLTree::insert(int key, string value)
+{
+}
+
+int AVLTree::getHeight()
+{
+}
+
+int AVLTree::getSize()
+{
+}
+
+ostream &operator<<(ostream &os, const AVLTree &me)
+{
+}
+
+bool AVLTree::find(int key, string &value)
+{
+}
+
+vector<string> AVLTree::findRange(int lowkey, int highkey)
 {
 }
