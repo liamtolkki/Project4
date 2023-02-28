@@ -8,7 +8,7 @@ public:
     AVLTree(){};
     ~AVLTree(){};
 
-    bool insert(int key, string value){};
+    bool insert(int key, std::string value){};
 
     int getHeight(){};
 
