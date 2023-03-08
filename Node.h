@@ -12,6 +12,7 @@ private:
 
 public:
     Node(){};
+    Node(int key, string value){};
     ~Node(){};
     Node::Node* getRight(){}; //getters for related nodes
     Node::Node* getLeft(){};
