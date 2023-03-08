@@ -11,6 +11,7 @@ AVLTree::~AVLTree() // default destructor
 
 bool AVLTree::insert(int key, string value)
 {
+    
 }
 
 int AVLTree::getHeight()
