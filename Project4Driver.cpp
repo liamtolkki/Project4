@@ -8,7 +8,7 @@ using namespace std;
 int main() {
 	
 	AVLTree tree;
-	/*
+	
 	cout << tree.insert(50, "Fifty");
 	// This should print 0, because it returns false (no duplicates allowed):
 	cout << tree.insert(50, "Another fifty");
@@ -63,7 +63,7 @@ int main() {
 		cout << *it << endl;
 	}
 	cout << "\n\n" << endl;
-	*/
+	
 	return 0;
 
 }

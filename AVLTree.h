@@ -1,24 +1,24 @@
 #pragma once
 #include <string>
 #include <vector>
-
+using namespace std;
 class AVLTree
 {
 public:
-    AVLTree(){};
-    ~AVLTree(){};
+    AVLTree();
+    ~AVLTree();
 
-    bool insert(int key, std::string value){};
+    bool insert(int key, std::string value);
 
-    int getHeight(){};
+    int getHeight();
 
-    int getSize(){};
+    int getSize();
 
-    friend ostream &operator<<(ostream &os, const AVLTree &me){};
+    friend ostream &operator<<(ostream &os, const AVLTree &me);
 
-    bool find(int key, string &value){};
+    bool find(int key, string &value);
 
-    vector<string> findRange(int lowkey, int highkey){};
+    vector<string> findRange(int lowkey, int highkey);
 
 private:
 };
