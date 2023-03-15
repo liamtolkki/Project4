@@ -1,0 +1,12 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "c:\\Users\\liamt\\OneDrive\\Desktop\\School\\DataStructuresAndAlgorithms\\Project4",
+            "binaryPath": "c:\\Users\\liamt\\OneDrive\\Desktop\\School\\DataStructuresAndAlgorithms\\Project4\\Project4",
+            "binaryArgs": []
+        }
+    ],
+    "files.associations": {
+        "*.tcc": "cpp"
+    }
+}
