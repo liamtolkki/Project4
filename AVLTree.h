@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Node.h"
 using namespace std;
 class AVLTree
 {
@@ -21,4 +22,5 @@ public:
     vector<string> findRange(int lowkey, int highkey);
 
 private:
+    Node* root;
 };

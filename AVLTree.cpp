@@ -3,6 +3,7 @@ using namespace std;
 
 AVLTree::AVLTree() // default constructor
 {
+    root = nullptr; //sets the default root pointer to null when initialized
 }
 
 AVLTree::~AVLTree() // default destructor
@@ -11,7 +12,10 @@ AVLTree::~AVLTree() // default destructor
 
 bool AVLTree::insert(int key, string value)
 {
-    
+    return insertHelper(key, value);
+}
+bool insertHelper(int key, string value) // recursive
+{
 }
 
 int AVLTree::getHeight()
