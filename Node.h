@@ -26,5 +26,4 @@ public:
     void setParent(Node *ptr);
     void setRight(Node *ptr);
     void setLeft(Node *ptr);
-    
 };
