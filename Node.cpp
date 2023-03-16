@@ -7,14 +7,14 @@ Node::Node()
     // sets all ptrs to null until initialized properly
     left = nullptr;
     right = nullptr;
-    root = nullptr;
+    parent = nullptr;
 }
 
 Node::Node(int keyIn, string valueIn)
 {
     left = nullptr;
     right = nullptr;
-    root = nullptr;
+    parent = nullptr;
     // initializes the object data using passed parameters
     key = keyIn;
     value = valueIn;
@@ -32,11 +32,11 @@ Node *Node::getRight()
 {
     return right;
 }
-Node *Node::getRoot()
+Node *Node::getParent()
 {
-    if (root != nullptr)
+    if (parent != nullptr)
     {
-        return root;
+        return parent;
     }
     else
     {
@@ -51,9 +51,9 @@ int Node::getKey()
 {
     return key;
 }
-Node *Node::setRoot(Node *ptr)
+Node *Node::setParent(Node *ptr)
 {
-    root = ptr; // setter function for the root var
+    parent = ptr; // setter function for the root var
 }
 // other needed setters
 Node *Node::setRight(Node *ptr)

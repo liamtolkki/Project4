@@ -15,7 +15,7 @@ bool AVLTree::insertHelper(int key, string value, Node *current, Node *prev) // 
     if (current == nullptr)
     { // if there is no node where there should be one, it creates one
         current = new Node(key, value);
-        current->setRoot(prev); // sets prev to be the parent node, not the tree root
+        current->setParent(prev); // sets prev to be the parent node, not the tree root
         if (root == nullptr)
         {
             root = current; // sets the root pointer if it is null (should only happen on first pass)
@@ -24,6 +24,7 @@ bool AVLTree::insertHelper(int key, string value, Node *current, Node *prev) // 
     }
     else
     {
+        prev = current->getParent(); //updates the prev pointer
         if (key > current->getKey()) // branch right
         {
 
