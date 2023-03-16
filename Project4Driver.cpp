@@ -1,3 +1,10 @@
+/*
+Liam Tolkkinen
+Project 4 (AVL Tree)
+Data Structures and Algorithms
+3/16/23
+*/
+
 #include "AVLTree.h"
 #include <iostream>
 #include <string>
