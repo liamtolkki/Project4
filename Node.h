@@ -18,6 +18,7 @@ public:
     Node *getRight(); // getters for related nodes
     Node *getLeft();
     Node *getRoot();
-
+    string getValue();
+    int getKey();
     Node *setRoot(Node *ptr);
 };

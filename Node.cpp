@@ -36,7 +36,12 @@ Node *Node::getRoot()
 {
     return root;
 }
-
+string Node::getValue(){
+    return value;
+}
+int Node::getKey(){
+    return key;
+}
 Node *Node::setRoot(Node *ptr)
 {
     root = ptr; // setter function for the root var
