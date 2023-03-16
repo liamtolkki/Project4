@@ -20,6 +20,7 @@ public:
     Node *getLeft();
     Node *getParent();
     void setHeight(int h);
+    int getHeight();
     string getValue();
     int getKey();
     void setParent(Node *ptr);

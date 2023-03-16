@@ -8,6 +8,7 @@ Node::Node()
     left = nullptr;
     right = nullptr;
     parent = nullptr;
+    height = -1;
 }
 
 Node::Node(int keyIn, string valueIn)
@@ -18,6 +19,7 @@ Node::Node(int keyIn, string valueIn)
     // initializes the object data using passed parameters
     key = keyIn;
     value = valueIn;
+    height = -1;
 }
 
 Node::~Node()
@@ -44,8 +46,20 @@ Node *Node::getParent()
     }
 }
 
-void Node::setHeight(int h) {
+void Node::setHeight(int h)
+{
     height = h;
+}
+int Node::getHeight()
+{
+    if (this == nullptr)
+    {
+        return -2;
+    }
+    else
+    {
+        return height;
+    }
 }
 string Node::getValue()
 {
