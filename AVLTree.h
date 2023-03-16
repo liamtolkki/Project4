@@ -11,7 +11,7 @@ public:
 
     bool insert(int key, std::string value);
 
-    bool insertHelper(int key, std::string value, Node *current, Node *prev);
+    bool insertHelper(int key, std::string value, Node *&current, Node *prev);
 
     int getHeight();
 

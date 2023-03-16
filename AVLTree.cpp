@@ -9,7 +9,7 @@ AVLTree::AVLTree() // default constructor
 AVLTree::~AVLTree() // default destructor
 {
 }
-bool AVLTree::insertHelper(int key, string value, Node *current, Node *prev) // recursive
+bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) // recursive
 {
     Node *tempNode = current; // holds place for linking
     if (current == nullptr)
@@ -24,24 +24,24 @@ bool AVLTree::insertHelper(int key, string value, Node *current, Node *prev) // 
     }
     else
     {
-        prev = current->getParent(); //updates the prev pointer
+        prev = current; // updates the prev pointer
         if (key > current->getKey()) // branch right
         {
-
-            current = current->getRight(); // updates current with right node if larger
-            bool temp = insertHelper(key, value, current, prev);
+            Node *rightChild = current->getRight();
+            bool temp = insertHelper(key, value, rightChild, prev);
             // runs recursive function but allows for me to modify
             // something before returning
 
-            tempNode->setRight(current); // links the new node to the right branch
+            current->setRight(rightChild); // links the new node to the right branch
             return temp;
         }
         else if (key < current->getKey()) // branch left
         {
 
-            current = current->getLeft();
-            bool temp = insertHelper(key, value, current, prev);
-            tempNode->setLeft(current);
+           Node *leftChild = current->getLeft();
+            bool temp = insertHelper(key, value, leftChild, prev);
+
+            current->setRight(leftChild); // links the new node to the left branch
             return temp;
         }
         else // if duplicate value, return false
