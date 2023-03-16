@@ -58,8 +58,29 @@ bool AVLTree::insert(int key, string value)
     return insertHelper(key, value, root, nullptr); // passes a nullptr because the first run will have a null back ptr
 }
 
-int calculateHeight(Node *starting)
-{ // this will calculate the height after each insert
+int AVLTree::calculateHeightHelper(Node *starting)
+{ // this will calculate the height after each insert and rotation
+    if (starting == nullptr)
+    {              // BASE CASE
+        return -1; // returns -1 if there is no node
+    }
+    int temp = (max(calculateHeightHelper(starting->getLeft()), calculateHeightHelper(starting->getRight()))); 
+    starting->setHeight(temp);
+    return temp;
+    /*
+        This recursively gets the height of the current node being targeted
+        This will be called everytime a rotation is done
+    */
+}
+
+void AVLTree::calculateHeight(Node *start, bool isRotation) //isRotation is to determine if the entire sub branch needs recalculated
+{
+    if (isRotation) { //treats starting node as the previous problem node 
+
+        height = calculateHeightHelper(start);
+
+    }
+
 }
 
 int AVLTree::getHeight() // this returns the height (Time complexity: O(1))

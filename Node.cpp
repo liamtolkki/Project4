@@ -43,6 +43,10 @@ Node *Node::getParent()
         return nullptr;
     }
 }
+
+void Node::setHeight(int h) {
+    height = h;
+}
 string Node::getValue()
 {
     return value;
@@ -51,16 +55,16 @@ int Node::getKey()
 {
     return key;
 }
-Node *Node::setParent(Node *ptr)
+void Node::setParent(Node *ptr)
 {
     parent = ptr; // setter function for the root var
 }
 // other needed setters
-Node *Node::setRight(Node *ptr)
+void Node::setRight(Node *ptr)
 {
     right = ptr;
 }
-Node *Node::setLeft(Node *ptr)
+void Node::setLeft(Node *ptr)
 {
     left = ptr;
 }

@@ -15,7 +15,9 @@ public:
 
     int getHeight();
 
-    int calculateHeight(Node *starting);
+    int calculateHeightHelper(Node *starting);
+
+    void calculateHeight(Node *start, bool isRotation);
 
     int getSize();
 
