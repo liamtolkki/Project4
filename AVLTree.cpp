@@ -25,6 +25,7 @@ bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) //
         }
         return true;
     }
+
     else
     {
         prev = current;              // updates the prev pointer
