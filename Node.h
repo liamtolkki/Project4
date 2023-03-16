@@ -21,4 +21,6 @@ public:
     string getValue();
     int getKey();
     Node *setRoot(Node *ptr);
+    Node *setRight(Node *ptr);
+    Node *setLeft(Node *ptr);
 };

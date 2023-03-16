@@ -37,7 +37,9 @@ Node *Node::getRoot()
     if (root != nullptr)
     {
         return root;
-    } else {
+    }
+    else
+    {
         return nullptr;
     }
 }
@@ -52,4 +54,13 @@ int Node::getKey()
 Node *Node::setRoot(Node *ptr)
 {
     root = ptr; // setter function for the root var
+}
+// other needed setters
+Node *Node::setRight(Node *ptr)
+{
+    right = ptr;
+}
+Node *Node::setLeft(Node *ptr)
+{
+    left = ptr;
 }
