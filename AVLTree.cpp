@@ -9,17 +9,16 @@ AVLTree::AVLTree() // default constructor
 AVLTree::~AVLTree() // default destructor
 {
 }
-
-bool AVLTree::insert(int key, string value)
-{
-    return insertHelper(key, value, root, root->getRoot());
-}
-bool insertHelper(int key, string value, Node *current, Node *prev) // recursive
+bool AVLTree::insertHelper(int key, string value, Node *current, Node *prev) // recursive
 {
     if (current == nullptr)
     { // if there is no node where there should be one, it creates one
         current = new Node(key, value);
         current->setRoot(prev); // sets prev to be the parent node, not the tree root
+        if (root == nullptr)
+        {
+            root = current; // sets the root pointer if it is null (should only happen on first pass)
+        }
         return true;
     }
     else
@@ -39,6 +38,11 @@ bool insertHelper(int key, string value, Node *current, Node *prev) // recursive
             return false;
         }
     }
+}
+
+bool AVLTree::insert(int key, string value)
+{
+    return insertHelper(key, value, root, nullptr); // passes a nullptr because the first run will have a null back ptr
 }
 
 int AVLTree::getHeight()

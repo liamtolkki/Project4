@@ -34,12 +34,19 @@ Node *Node::getRight()
 }
 Node *Node::getRoot()
 {
-    return root;
+    if (root != nullptr)
+    {
+        return root;
+    } else {
+        return nullptr;
+    }
 }
-string Node::getValue(){
+string Node::getValue()
+{
     return value;
 }
-int Node::getKey(){
+int Node::getKey()
+{
     return key;
 }
 Node *Node::setRoot(Node *ptr)
