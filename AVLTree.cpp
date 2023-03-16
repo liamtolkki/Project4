@@ -16,7 +16,7 @@ bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) //
     if (current == nullptr)
     { // if there is no node where there should be one, it creates one
         current = new Node(key, value);
-        size++; //increments the size whenever a node is added
+        size++;                   // increments the size whenever a node is added
         current->setParent(prev); // sets prev to be the parent node, not the tree root
         if (root == nullptr)
         {
@@ -58,8 +58,13 @@ bool AVLTree::insert(int key, string value)
     return insertHelper(key, value, root, nullptr); // passes a nullptr because the first run will have a null back ptr
 }
 
-int AVLTree::getHeight()
+int calculateHeight(Node *starting)
+{ // this will calculate the height after each insert
+}
+
+int AVLTree::getHeight() // this returns the height (Time complexity: O(1))
 {
+    return height;
 }
 
 int AVLTree::getSize()

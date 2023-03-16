@@ -15,6 +15,8 @@ public:
 
     int getHeight();
 
+    int calculateHeight(Node *starting);
+
     int getSize();
 
     friend ostream &operator<<(ostream &os, const AVLTree &me);
@@ -24,6 +26,7 @@ public:
     vector<string> findRange(int lowkey, int highkey);
 
 private:
-    Node* root;
-    int size; //holds the size of the AVL tree
+    Node *root;
+    int size;   // holds the size of the AVL tree
+    int height; // height of the tree
 };
