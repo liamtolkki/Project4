@@ -20,6 +20,24 @@ bool insertHelper(int key, string value, Node *current, Node *prev) // recursive
     { // if there is no node where there should be one, it creates one
         current = new Node(key, value);
         current->setRoot(prev); // sets prev to be the parent node, not the tree root
+        return true;
+    }
+    else
+    {
+        if (key > current->getKey()) // branch right
+        {
+            current = current->getRight(); // updates current with right node if larger
+            return insertHelper(key, value, current, prev);
+        }
+        else if (key < current->getKey()) // branch left
+        {
+            current = current->getLeft();
+            return insertHelper(key, value, current, prev);
+        }
+        else // if duplicate value, return false
+        {
+            return false;
+        }
     }
 }
 
