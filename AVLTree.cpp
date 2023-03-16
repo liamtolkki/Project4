@@ -4,6 +4,7 @@ using namespace std;
 AVLTree::AVLTree() // default constructor
 {
     root = nullptr; // sets the default root pointer to null when initialized
+    size = 0;       // default size = 0
 }
 
 AVLTree::~AVLTree() // default destructor
@@ -15,6 +16,7 @@ bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) //
     if (current == nullptr)
     { // if there is no node where there should be one, it creates one
         current = new Node(key, value);
+        size++; //increments the size whenever a node is added
         current->setParent(prev); // sets prev to be the parent node, not the tree root
         if (root == nullptr)
         {
@@ -24,7 +26,7 @@ bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) //
     }
     else
     {
-        prev = current; // updates the prev pointer
+        prev = current;              // updates the prev pointer
         if (key > current->getKey()) // branch right
         {
             Node *rightChild = current->getRight();
@@ -38,7 +40,7 @@ bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) //
         else if (key < current->getKey()) // branch left
         {
 
-           Node *leftChild = current->getLeft();
+            Node *leftChild = current->getLeft();
             bool temp = insertHelper(key, value, leftChild, prev);
 
             current->setRight(leftChild); // links the new node to the left branch
@@ -62,6 +64,7 @@ int AVLTree::getHeight()
 
 int AVLTree::getSize()
 {
+    return size;
 }
 
 ostream &operator<<(ostream &os, const AVLTree &me)
