@@ -9,6 +9,7 @@ Node::Node()
     right = nullptr;
     parent = nullptr;
     height = -1;
+    balance = 0;
 }
 
 Node::Node(int keyIn, string valueIn)
@@ -20,6 +21,7 @@ Node::Node(int keyIn, string valueIn)
     key = keyIn;
     value = valueIn;
     height = -1;
+    balance = 0;
 }
 
 Node::~Node()
@@ -81,4 +83,12 @@ void Node::setRight(Node *ptr)
 void Node::setLeft(Node *ptr)
 {
     left = ptr;
+}
+
+void Node::setBalance(int bal) {
+    balance = bal;
+}
+
+int Node::getBalance() {
+    return balance;
 }

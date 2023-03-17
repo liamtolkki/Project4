@@ -11,6 +11,7 @@ private:
     int key;      // holds the numerical data
     string value; // holds the string data
     int height;   // holds current node height
+    int balance;
 
 public:
     Node();
@@ -26,4 +27,6 @@ public:
     void setParent(Node *ptr);
     void setRight(Node *ptr);
     void setLeft(Node *ptr);
+    void setBalance(int bal);
+    int getBalance();
 };
