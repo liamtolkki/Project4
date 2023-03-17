@@ -19,6 +19,8 @@ public:
 
     void calculateHeight(Node *start);
 
+    void calculateBalance();
+
     int getSize();
 
     friend ostream &treePrinter(ostream &os, Node *current, int height);

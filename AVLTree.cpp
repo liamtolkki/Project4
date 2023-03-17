@@ -11,6 +11,7 @@ AVLTree::AVLTree() // default constructor
 AVLTree::~AVLTree() // default destructor
 {
 }
+
 bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) // recursive
 {
     Node *tempNode = current; // holds place for linking
@@ -96,6 +97,10 @@ void AVLTree::calculateHeight(Node *start)
     height = currentHeight;
 }
 
+void AVLTree::calculateBalance() {
+    
+}
+
 int AVLTree::getHeight() // this returns the height (Time complexity: O(1))
 {
     return height;
@@ -105,6 +110,7 @@ int AVLTree::getSize()
 {
     return size;
 }
+
 ostream &treePrinter(ostream &os, Node *current, int height)
 {
     if (current != nullptr)
@@ -123,6 +129,7 @@ ostream &treePrinter(ostream &os, Node *current, int height)
     }
     return os;
 }
+
 ostream &operator<<(ostream &os, const AVLTree &me)
 {
     return treePrinter(os, me.root, me.height);
