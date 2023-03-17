@@ -97,8 +97,8 @@ void AVLTree::calculateHeight(Node *start)
     height = currentHeight;
 }
 
-void AVLTree::calculateBalance() {
-    
+int AVLTree::balance(Node *current) {
+
 }
 
 int AVLTree::getHeight() // this returns the height (Time complexity: O(1))

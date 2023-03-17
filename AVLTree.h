@@ -19,7 +19,7 @@ public:
 
     void calculateHeight(Node *start);
 
-    void calculateBalance();
+    int balance(Node *current);
 
     int getSize();
 
