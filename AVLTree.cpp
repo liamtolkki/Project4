@@ -115,7 +115,7 @@ ostream &treePrinter(ostream &os, Node *current)
         }
         string string1 = to_string(current->getKey());
         string string2 = string(current->getValue());
-        string concat = string1 + ", " + string2;
+        string concat = string1 + ", " + string2 + "\n";
         os << concat;
         treePrinter(os, current->getLeft());
     }
