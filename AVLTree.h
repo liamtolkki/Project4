@@ -23,6 +23,8 @@ public:
 
     friend ostream &operator<<(ostream &os, const AVLTree &me);
 
+    ostream &treePrinter(ostream &os, Node *current);
+
     bool find(int key, string &value);
 
     vector<string> findRange(int lowkey, int highkey);
