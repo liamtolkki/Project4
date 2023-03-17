@@ -97,8 +97,16 @@ void AVLTree::calculateHeight(Node *start)
     height = currentHeight;
 }
 
-int AVLTree::balance(Node *current) {
-
+void AVLTree::checkBalance(Node *current)
+{ // current is the node that is modified (rotated/added)
+    while (current != nullptr)
+    { // moves up the tree and recalculates the balance of every node that it lands on
+        current->setBalance(current->getLeft()->getHeight() - current->getRight()->getHeight());
+        if (current->getBalance() == 2 || current->getBalance() == -2) {
+            //TODO rotate
+        }
+        current = current->getParent();
+    }
 }
 
 int AVLTree::getHeight() // this returns the height (Time complexity: O(1))
