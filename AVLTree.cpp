@@ -107,10 +107,12 @@ int AVLTree::getSize()
 }
 ostream &treePrinter(ostream &os, Node *current, int height)
 {
-    if (current != nullptr) {
+    if (current != nullptr)
+    {
         treePrinter(os, current->getRight(), height);
-        for(int i = 0; i < (height - current->getHeight()); i++) {
-            //adds proper spacing based on height:
+        for (int i = 0; i < (height - current->getHeight()); i++)
+        {
+            // adds proper spacing based on height:
             os << string("         ");
         }
         string string1 = to_string(current->getKey());

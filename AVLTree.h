@@ -20,12 +20,10 @@ public:
     void calculateHeight(Node *start);
 
     int getSize();
-    
+
     friend ostream &treePrinter(ostream &os, Node *current, int height);
 
     friend ostream &operator<<(ostream &os, const AVLTree &me);
-
-    
 
     bool find(int key, string &value);
 
