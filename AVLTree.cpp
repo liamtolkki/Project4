@@ -105,11 +105,11 @@ int AVLTree::getSize()
 {
     return size;
 }
-ostream &treePrinter(ostream &os, Node *current)
+ostream &treePrinter(ostream &os, Node *current, int height)
 {
     if (current != nullptr) {
-        treePrinter(os, current->getRight());
-        for(int i = 0; i < current->getHeight(); i++) {
+        treePrinter(os, current->getRight(), height);
+        for(int i = 0; i < (height - current->getHeight()); i++) {
             //adds proper spacing based on height:
             os << string("         ");
         }
@@ -117,13 +117,13 @@ ostream &treePrinter(ostream &os, Node *current)
         string string2 = string(current->getValue());
         string concat = string1 + ", " + string2 + "\n";
         os << concat;
-        treePrinter(os, current->getLeft());
+        treePrinter(os, current->getLeft(), height);
     }
     return os;
 }
 ostream &operator<<(ostream &os, const AVLTree &me)
 {
-    return treePrinter(os, me.root);
+    return treePrinter(os, me.root, me.height);
 }
 
 bool AVLTree::find(int key, string &value)
