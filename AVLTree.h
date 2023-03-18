@@ -21,6 +21,8 @@ public:
 
     void checkBalance(Node *current);
 
+    void balancer(Node *current);
+
     int getSize();
 
     friend ostream &treePrinter(ostream &os, Node *current, int height);
