@@ -8,7 +8,7 @@ Node::Node()
     left = nullptr;
     right = nullptr;
     parent = nullptr;
-    height = -1;
+    height = 0;
     balance = 0;
 }
 
@@ -20,7 +20,7 @@ Node::Node(int keyIn, string valueIn)
     // initializes the object data using passed parameters
     key = keyIn;
     value = valueIn;
-    height = -1;
+    height = 0;
     balance = 0;
 }
 
@@ -56,7 +56,7 @@ int Node::getHeight()
 {
     if (this == nullptr)
     {
-        return -2;
+        return -1;
     }
     else
     {
