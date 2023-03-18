@@ -110,8 +110,15 @@ void AVLTree::checkBalance(Node *current)
         {
             problem = current;
             balancer(problem);
-            calculateHeight(origNode); // recalculates heights to check balances
-            current = origNode;        // goes back to beginning to recalculate balances
+            if (origNode->getParent() != nullptr)
+            {
+                calculateHeight(origNode->getParent()); // recalculates heights to check balances
+            }
+            else
+            {
+                calculateHeight(origNode);
+            }
+            current = origNode; // goes back to beginning to recalculate balances
         }
         current = current->getParent();
     }
@@ -138,6 +145,7 @@ void AVLTree::balancer(Node *problem)
         // plug back in subtrees (if any)
         problem->setLeft(subtreeB);
         problem->setRight(subtreeC);
+        // DONE!
     }
 }
 
