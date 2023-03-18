@@ -124,9 +124,20 @@ void AVLTree::balancer(Node *problem)
 
     {
         // single right rotation
+        // Next 5 lines hold the necessary rotation node data
         Node *hook = problem->getLeft(); // grabs hook node
         Node *problemParent = problem->getParent();
-
+        Node *subtreeA = hook->getLeft();     // holds the hook's left child
+        Node *subtreeB = hook->getRight();    // holds the hook's right child
+        Node *subtreeC = problem->getRight(); // the right child of the problem node
+        // now for the rotation!
+        hook->setParent(problemParent);
+        // rotate hook and problem node
+        hook->setLeft(subtreeA);
+        hook->setRight(problem);
+        // plug back in subtrees (if any)
+        problem->setLeft(subtreeB);
+        problem->setRight(subtreeC);
     }
 }
 
