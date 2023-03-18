@@ -39,6 +39,7 @@ bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) //
 
             current->setRight(rightChild); // links the new node to the right branch
             calculateHeight(*&current);
+            checkBalance(*&current);
             return temp;
         }
         else if (key < current->getKey()) // branch left
@@ -49,6 +50,7 @@ bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) //
 
             current->setLeft(leftChild); // links the new node to the left branch
             calculateHeight(*&current);
+            checkBalance(*&current);
             return temp;
         }
         else // if duplicate value, return false
@@ -69,7 +71,7 @@ int AVLTree::calculateHeightHelper(Node *starting)
 { // this will calculate the height after each insert and rotation
     if (starting == nullptr)
     {              // BASE CASE
-        return -2; // returns -1 if there is no node
+        return -1; // returns -1 if there is no node
     }
     int temp = (max(calculateHeightHelper(starting->getLeft()), calculateHeightHelper(starting->getRight())) + 1);
     starting->setHeight(temp);
@@ -98,14 +100,33 @@ void AVLTree::calculateHeight(Node *start)
 }
 
 void AVLTree::checkBalance(Node *current)
-{ // current is the node that is modified (rotated/added)
+{                             // current is the node that is modified (rotated/added)
+    Node *problem;            // will point to the problem node if found
+    Node *origNode = current; // holds the original node that was passed for repeating the check
     while (current != nullptr)
     { // moves up the tree and recalculates the balance of every node that it lands on
         current->setBalance(current->getLeft()->getHeight() - current->getRight()->getHeight());
-        if (current->getBalance() == 2 || current->getBalance() == -2) {
-            //TODO rotate
+        if (current->getBalance() >= 2 || current->getBalance() <= -2)
+        {
+            problem = current;
+            balancer(problem);
+            calculateHeight(origNode); // recalculates heights to check balances
+            current = origNode;        // goes back to beginning to recalculate balances
         }
         current = current->getParent();
+    }
+}
+
+void AVLTree::balancer(Node *problem)
+{ // this applies the node balancing operations
+
+    if ((problem->getBalance() == 2 && (problem->getLeft()->getBalance()) == 1 || problem->getLeft()->getBalance() == 0))
+
+    {
+        // single right rotation
+        Node *hook = problem->getLeft(); // grabs hook node
+        Node *problemParent = problem->getParent();
+
     }
 }
 
