@@ -84,19 +84,22 @@ int AVLTree::calculateHeightHelper(Node *starting)
 
 void AVLTree::calculateHeight(Node *start)
 {
-    start->setHeight(calculateHeightHelper(start));
-    // gets the height of the starting node
-    // needs to work it's way up the tree
-    Node *current = start->getParent(); // placeholder variable
-    int currentHeight = start->getHeight();
-    while (current != nullptr)
+    if (start != nullptr)
     {
-        // progresses up the tree until reaches parent
-        currentHeight = (max(current->getLeft()->getHeight(), current->getRight()->getHeight()) + 1);
-        current->setHeight(currentHeight);
-        current = current->getParent();
+        start->setHeight(calculateHeightHelper(start));
+        // gets the height of the starting node
+        // needs to work it's way up the tree
+        Node *current = start->getParent(); // placeholder variable
+        int currentHeight = start->getHeight();
+        while (current != nullptr)
+        {
+            // progresses up the tree until reaches parent
+            currentHeight = (max(current->getLeft()->getHeight(), current->getRight()->getHeight()) + 1);
+            current->setHeight(currentHeight);
+            current = current->getParent();
+        }
+        height = currentHeight;
     }
-    height = currentHeight;
 }
 
 void AVLTree::checkBalance(Node *current)
