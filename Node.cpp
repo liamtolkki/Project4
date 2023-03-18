@@ -28,13 +28,34 @@ Node::~Node()
 { // default destructor
 }
 
+/*
+
+All of these Getters and Setters are protected from segmentation faults! that is why
+there are so many conditionals on every getter and setter
+
+*/
+
 Node *Node::getLeft()
 {
-    return left;
+    if (this != nullptr)
+    {
+        return left;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 Node *Node::getRight()
 {
-    return right;
+    if (this != nullptr)
+    {
+        return right;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 Node *Node::getParent()
 {
@@ -50,7 +71,10 @@ Node *Node::getParent()
 
 void Node::setHeight(int h)
 {
-    height = h;
+    if (this != nullptr)
+    {
+        height = h;
+    }
 }
 int Node::getHeight()
 {
@@ -65,30 +89,65 @@ int Node::getHeight()
 }
 string Node::getValue()
 {
-    return value;
+    if (this != nullptr)
+    {
+        return value;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 int Node::getKey()
 {
-    return key;
+    if (this != nullptr)
+    {
+        return key;
+    }
+    else
+    {
+        return NULL;
+    }
 }
 void Node::setParent(Node *ptr)
 {
-    parent = ptr; // setter function for the root var
+    if (this != nullptr)
+    {
+        parent = ptr; // setter function for the root var
+    }
 }
 // other needed setters
 void Node::setRight(Node *ptr)
 {
-    right = ptr;
+    if (this != nullptr)
+    {
+        right = ptr;
+    }
 }
 void Node::setLeft(Node *ptr)
 {
-    left = ptr;
+    if (this != nullptr)
+    {
+        left = ptr;
+    }
 }
 
-void Node::setBalance(int bal) {
-    balance = bal;
+void Node::setBalance(int bal)
+{
+    if (this != nullptr)
+    {
+        balance = bal;
+    }
 }
 
-int Node::getBalance() {
-    return balance;
+int Node::getBalance()
+{
+    if (this != nullptr)
+    {
+        return balance;
+    }
+    else
+    {
+        return NULL;
+    }
 }
