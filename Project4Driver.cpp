@@ -26,6 +26,12 @@ int main()
 	cout << tree.insert(40, "Fourty");
 	cout << tree.insert(30, "Thirty"); // single rotate right
 	cout << tree.insert(150, "One hundred fifty");
+	
+	// remove after:
+	cout << "\n\n\n";
+	cout << tree << endl;
+
+
 	cout << tree.insert(175, "One hundred seventy-five"); // double rotate right
 	cout << tree.insert(35, "Thirty-five");
 	cout << tree.insert(34, "Thirty-four");		  // double rotate left
