@@ -128,7 +128,6 @@ void AVLTree::balancer(Node *problem)
 { // this applies the node balancing operations
 
     if ((problem->getBalance() == 2 && (problem->getLeft()->getBalance()) == 1 || problem->getLeft()->getBalance() == 0))
-
     {
         // single right rotation
         // Next 5 lines hold the necessary rotation node data
@@ -146,6 +145,11 @@ void AVLTree::balancer(Node *problem)
         problem->setLeft(subtreeB);
         problem->setRight(subtreeC);
         // DONE!
+    }
+
+    if ((problem->getBalance() == -2 && (problem->getLeft()->getBalance()) == -1 || problem->getLeft()->getBalance() == 0))
+    {
+        // single left rotation
     }
 }
 
