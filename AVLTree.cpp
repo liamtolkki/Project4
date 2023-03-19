@@ -211,72 +211,90 @@ void AVLTree::checkBalance(stack<Node *> &treeStack)
     }
 }
 
+void AVLTree::singleRight(Node *problem)
+{
+    // Next 5 lines hold the necessary rotation node data
+    Node *hook = problem->getLeft(); // grabs hook node
+    Node *problemParent = problem->getParent();
+    Node *subtreeA = hook->getLeft();     // holds the hook's left child
+    Node *subtreeB = hook->getRight();    // holds the hook's right child
+    Node *subtreeC = problem->getRight(); // the right child of the problem node
+    // now for the rotation!
+    hook->setParent(problemParent);
+    if (problemParent == nullptr)
+    {
+        root = hook; // sets the new root if needed
+    }
+    // rotate hook and problem node
+    hook->setRight(problem);
+    // plug back in subtrees (if any)
+    hook->setLeft(subtreeA);
+    problem->setLeft(subtreeB);
+    problem->setRight(subtreeC);
+    // reroute the root's child to hook:
+    if (problemParent->getKey() > hook->getKey())
+    {
+        problemParent->setLeft(hook);
+    }
+    else
+    {
+        problemParent->setRight(hook);
+    }
+    // DONE!
+}
+
+void AVLTree::singleLeft(Node *problem)
+{
+    Node *hook = problem->getRight(); // grabs hook node
+    Node *problemParent = problem->getParent();
+    Node *subtreeA = problem->getLeft();
+    Node *subtreeB = hook->getLeft();
+    Node *subtreeC = hook->getRight();
+    hook->setParent(problemParent);
+    if (problemParent == nullptr)
+    {
+        root = hook; // sets the new root if needed
+    }
+    // swap hook and problem nodes:
+    hook->setLeft(problem);
+    problem->setParent(hook);
+    // plug back in subtrees (if any)
+    problem->setLeft(subtreeA);
+    problem->setRight(subtreeB);
+    hook->setRight(subtreeC);
+    // reroute the root's child to hook:
+    if (problemParent->getKey() > hook->getKey())
+    {
+        problemParent->setLeft(hook);
+    }
+    else
+    {
+        problemParent->setRight(hook);
+    }
+    // DONE!
+}
+
+void AVLTree::rightLeft(Node *problem)
+{
+}
+
+void AVLTree::leftRight(Node *problem)
+{
+}
+
 void AVLTree::balancer(Node *problem)
 { // this applies the node balancing operations
 
     if ((problem->getBalance() == 2) && ((((problem->getLeft()->getBalance()) == 1) || (problem->getLeft()->getBalance() == 0))))
     {
         // single right rotation
-        // Next 5 lines hold the necessary rotation node data
-        Node *hook = problem->getLeft(); // grabs hook node
-        Node *problemParent = problem->getParent();
-        Node *subtreeA = hook->getLeft();     // holds the hook's left child
-        Node *subtreeB = hook->getRight();    // holds the hook's right child
-        Node *subtreeC = problem->getRight(); // the right child of the problem node
-        // now for the rotation!
-        hook->setParent(problemParent);
-        if (problemParent == nullptr)
-        {
-            root = hook; // sets the new root if needed
-        }
-        // rotate hook and problem node
-        hook->setRight(problem);
-        // plug back in subtrees (if any)
-        hook->setLeft(subtreeA);
-        problem->setLeft(subtreeB);
-        problem->setRight(subtreeC);
-        // reroute the root's child to hook:
-        if (problemParent->getKey() > hook->getKey())
-        {
-            problemParent->setLeft(hook);
-        }
-        else
-        {
-            problemParent->setRight(hook);
-        }
-        // DONE!
+        singleRight(problem);
     }
 
     if ((problem->getBalance() == -2) && ((((problem->getLeft()->getBalance()) == -1) || (problem->getLeft()->getBalance() == 0))))
     {
         // single left rotation
-        Node *hook = problem->getRight(); // grabs hook node
-        Node *problemParent = problem->getParent();
-        Node *subtreeA = problem->getLeft();
-        Node *subtreeB = hook->getLeft();
-        Node *subtreeC = hook->getRight();
-        hook->setParent(problemParent);
-        if (problemParent == nullptr)
-        {
-            root = hook; // sets the new root if needed
-        }
-        // swap hook and problem nodes:
-        hook->setLeft(problem);
-        problem->setParent(hook);
-        // plug back in subtrees (if any)
-        problem->setLeft(subtreeA);
-        problem->setRight(subtreeB);
-        hook->setRight(subtreeC);
-        // reroute the root's child to hook:
-        if (problemParent->getKey() > hook->getKey())
-        {
-            problemParent->setLeft(hook);
-        }
-        else
-        {
-            problemParent->setRight(hook);
-        }
-        // DONE!
+        singleLeft(problem);
     }
 }
 

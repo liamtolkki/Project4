@@ -23,6 +23,14 @@ public:
     void checkBalance(stack<Node *> &TreeStack);
 
     void balancer(Node *current);
+    
+    void singleRight(Node *problem);
+
+    void singleLeft(Node *problem);
+
+    void leftRight(Node *problem);
+
+    void rightLeft(Node *problem);
 
     int getSize();
 
