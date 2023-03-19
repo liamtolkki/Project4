@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <stack>
 #include "Node.h"
 using namespace std;
 class AVLTree
@@ -11,13 +12,11 @@ public:
 
     bool insert(int key, std::string value);
 
-    bool insertHelper(int key, std::string value, Node *&current, Node *prev);
-
     int getHeight();
 
-    int calculateHeightHelper(Node *starting);
+    void calculateHeight(stack<Node*> &treeStack);
 
-    void calculateHeight(Node *start);
+    stack<Node *> getTreeStack(Node * nodeIn);
 
     void checkBalance(Node *current);
 

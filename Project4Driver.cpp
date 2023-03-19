@@ -19,14 +19,14 @@ int main()
 	// This should print 0, because it returns false (no duplicates allowed):
 	cout << tree.insert(50, "Another fifty");
 	cout << tree.insert(100, "One hundred");
-	cout << tree.insert(200, "Two hundred"); // single rotate left
+	cout << tree.insert(200, "Two hundred"); // single rotate left --------SEG-FAULT
 	cout << "\n\n";
 	cout << tree << endl;
 
 	cout << tree.insert(40, "Fourty");
 	cout << tree.insert(30, "Thirty"); // single rotate right
 	cout << tree.insert(150, "One hundred fifty");
-	
+
 	// remove after:
 	cout << "\n\n\n";
 	cout << tree << endl;

@@ -1,4 +1,5 @@
 #include "AVLTree.h"
+#include <stack>
 using namespace std;
 
 AVLTree::AVLTree() // default constructor
@@ -12,95 +13,158 @@ AVLTree::~AVLTree() // default destructor
 {
 }
 
-bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) // recursive
-{
-    Node *tempNode = current; // holds place for linking
-    if (current == nullptr)
-    { // if there is no node where there should be one, it creates one
-        current = new Node(key, value);
-        size++;                   // increments the size whenever a node is added
-        current->setParent(prev); // sets prev to be the parent node, not the tree root
-        if (root == nullptr)
-        {
-            root = current; // sets the root pointer if it is null (should only happen on first pass)
-        }
-        return true;
-    }
+// My majestic failure of a recursive insert function lies here!!!!!!
 
-    else
-    {
-        prev = current;              // updates the prev pointer
-        if (key > current->getKey()) // branch right
-        {
-            Node *rightChild = current->getRight();
-            bool temp = insertHelper(key, value, rightChild, prev);
-            // runs recursive function but allows for me to modify
-            // something before returning
-
-            current->setRight(rightChild); // links the new node to the right branch
-            calculateHeight(*&current);
-            checkBalance(*&current);
-            return temp;
-        }
-        else if (key < current->getKey()) // branch left
-        {
-
-            Node *leftChild = current->getLeft();
-            bool temp = insertHelper(key, value, leftChild, prev);
-
-            current->setLeft(leftChild); // links the new node to the left branch
-            calculateHeight(*&current);
-            checkBalance(*&current);
-            return temp;
-        }
-        else // if duplicate value, return false
-        {
-            return false;
-        }
-    }
-}
+// bool AVLTree::insertHelper(int key, string value, Node *&current, Node *prev) // recursive
+//{
+//     Node *tempNode = current; // holds place for linking
+//     if (current == nullptr)
+//     { // if there is no node where there should be one, it creates one
+//         current = new Node(key, value);
+//         size++;                   // increments the size whenever a node is added
+//         current->setParent(prev); // sets prev to be the parent node, not the tree root
+//         if (root == nullptr)
+//         {
+//             root = current; // sets the root pointer if it is null (should only happen on first pass)
+//         }
+//         return true;
+//     }
+//
+//     else
+//     {
+//         prev = current;              // updates the prev pointer
+//         if (key > current->getKey()) // branch right
+//         {
+//             Node *rightChild = current->getRight();
+//             bool temp = insertHelper(key, value, rightChild, prev);
+//             // runs recursive function but allows for me to modify
+//             // something before returning
+//
+//             current->setRight(rightChild); // links the new node to the right branch
+//             calculateHeight(*&current);
+//             checkBalance(*&current);
+//             return temp;
+//         }
+//         else if (key < current->getKey()) // branch left
+//         {
+//
+//             Node *leftChild = current->getLeft();
+//             bool temp = insertHelper(key, value, leftChild, prev);
+//
+//             current->setLeft(leftChild); // links the new node to the left branch
+//             calculateHeight(*&current);
+//             checkBalance(*&current);
+//             return temp;
+//         }
+//         else // if duplicate value, return false
+//         {
+//             return false;
+//         }
+//     }
+// }
 
 bool AVLTree::insert(int key, string value)
 {
-    bool isInsert = insertHelper(key, value, root, nullptr); // passes a nullptr because the first run will have a null back ptr
+    /*
+    I tried to implement this recursively, and I am not lying when I say this:
+    I SPENT 40 HOURS TRYING! I kept getting SEG-Faults due to my rotations throwing off
+    the recursive stack frames! every other recursive function worked for me
+    but i finally gave up on trying to make this one recursive! (I didn't want to cheat)
+    I will leave the original attempted code, but it will be commented out above this! :)
 
+    This was the OG function call that would be here:
+    // bool isInsert = insertHelper(key, value, root, nullptr); // passes a nullptr because the first run will have a null back ptr
+
+    */
+
+    // I will use a stack to track the tree progression:
+    stack<Node *> treeStack;
+    bool isInsert;
+    Node *current;
+    // get root (if present)
+    if (root == nullptr)
+    {
+        root = new Node(key, value);
+        size++;
+        isInsert = true;
+        current = root;
+    }
+    else
+    {
+        current = root;
+        size++; // increments the size of the array
+        // Find spot to insert:
+        while (current != nullptr)
+        { // go down the tree...
+
+            treeStack.push(current); // holds the path to the node being inserted
+            if (key > current->getKey())
+            {
+                current = current->getRight();
+            }
+            else if (key < current->getKey())
+            {
+                current = current->getLeft();
+            }
+            else
+            {
+                // dupe val
+                return false;
+            }
+        }
+        // compare last node to key
+        Node *parent = treeStack.top();
+        isInsert = true;
+        if (key > parent->getKey())
+        {
+            parent->setRight(new Node(key, value));
+            parent->getRight()->setParent(parent);
+        }
+        else
+        {
+            parent->setLeft(new Node(key, value));
+            parent->getLeft()->setParent(parent);
+        }
+    }
+    calculateHeight(treeStack);
     return isInsert;
 }
 
-int AVLTree::calculateHeightHelper(Node *starting)
-{ // this will calculate the height after each insert and rotation
-    if (starting == nullptr)
-    {              // BASE CASE
-        return -1; // returns -1 if there is no node
+stack<Node *> AVLTree::getTreeStack(Node *nodeIn) // this assumes that the node will always be found
+{                                                 // this will find an element and create a tree stack (path to node)
+    stack<Node *> treeStack;
+    Node *current = root; // always start with root
+    treeStack.push(current);
+    while (nodeIn->getKey() != current->getKey())
+    { // loop until found
+        if (nodeIn->getKey() > current->getKey())
+        {
+            current = current->getRight();
+        }
+        if (nodeIn->getKey() < current->getKey())
+        {
+            current = current->getLeft();
+        }
+        treeStack.push(current);
     }
-    int temp = (max(calculateHeightHelper(starting->getLeft()), calculateHeightHelper(starting->getRight())) + 1);
-    starting->setHeight(temp);
-    return temp;
-    /*
-        This recursively gets the height of the current node being targeted
-        This will be called everytime a rotation is done
-    */
+    return treeStack;
 }
 
-void AVLTree::calculateHeight(Node *start)
+void AVLTree::calculateHeight(stack<Node *> &treeStack)
 {
-    if (start != nullptr)
+    // goes through the current stack and calculates
+    int currentHeight;
+    // top of treeStack is bottom of current subtree path
+    while (!treeStack.empty())
     {
-        start->setHeight(calculateHeightHelper(start));
-        // gets the height of the starting node
-        // needs to work it's way up the tree
-        Node *current = start->getParent(); // placeholder variable
-        int currentHeight = start->getHeight();
-        while (current != nullptr)
-        {
-            // progresses up the tree until reaches parent
-            currentHeight = (max(current->getLeft()->getHeight(), current->getRight()->getHeight()) + 1);
-            current->setHeight(currentHeight);
-            current = current->getParent();
-        }
-        height = currentHeight;
+        Node *current = treeStack.top();
+        currentHeight = (max(current->getLeft()->getHeight(), current->getRight()->getHeight()) + 1);
+        treeStack.pop(); // pops the current node off the tree stack
+        // this lets current be updated to the next node on the list
     }
 }
+
+
 
 void AVLTree::checkBalance(Node *current)
 {                             // current is the node that is modified (rotated/added)
@@ -113,14 +177,8 @@ void AVLTree::checkBalance(Node *current)
         {
             problem = current;
             balancer(problem);
-            if (origNode->getParent() != nullptr)
-            {
-                calculateHeight(origNode->getParent()); // recalculates heights to check balances
-            }
-            else
-            {
-                calculateHeight(origNode);
-            }
+            stack<Node *> rootStack = getTreeStack(root);
+            calculateHeight(rootStack);
             current = origNode; // goes back to beginning to recalculate balances
         }
         current = current->getParent();
@@ -130,7 +188,7 @@ void AVLTree::checkBalance(Node *current)
 void AVLTree::balancer(Node *problem)
 { // this applies the node balancing operations
 
-    if ((problem->getBalance() == 2 && (problem->getLeft()->getBalance()) == 1 || problem->getLeft()->getBalance() == 0))
+    if ((problem->getBalance() == 2) && ((((problem->getLeft()->getBalance()) == 1) || (problem->getLeft()->getBalance() == 0))))
     {
         // single right rotation
         // Next 5 lines hold the necessary rotation node data
@@ -141,6 +199,10 @@ void AVLTree::balancer(Node *problem)
         Node *subtreeC = problem->getRight(); // the right child of the problem node
         // now for the rotation!
         hook->setParent(problemParent);
+        if (problemParent == nullptr)
+        {
+            root = hook; // sets the new root if needed
+        }
         // rotate hook and problem node
         hook->setRight(problem);
         // plug back in subtrees (if any)
@@ -150,7 +212,7 @@ void AVLTree::balancer(Node *problem)
         // DONE!
     }
 
-    if ((problem->getBalance() == -2 && (problem->getLeft()->getBalance()) == -1 || problem->getLeft()->getBalance() == 0))
+    if ((problem->getBalance() == -2) && ((((problem->getLeft()->getBalance()) == -1) || (problem->getLeft()->getBalance() == 0))))
     {
         // single left rotation
         Node *hook = problem->getRight(); // grabs hook node
@@ -159,6 +221,10 @@ void AVLTree::balancer(Node *problem)
         Node *subtreeB = hook->getLeft();
         Node *subtreeC = hook->getRight();
         hook->setParent(problemParent);
+        if (problemParent == nullptr)
+        {
+            root = hook; // sets the new root if needed
+        }
         // swap hook and problem nodes:
         hook->setLeft(problem);
         problem->setParent(hook);
