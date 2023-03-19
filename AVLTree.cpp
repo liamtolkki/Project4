@@ -88,11 +88,11 @@ bool AVLTree::insert(int key, string value)
         size++;
         isInsert = true;
         current = root;
+        treeStack.push(current);
     }
     else
     {
         current = root;
-        size++; // increments the size of the array
         // Find spot to insert:
         while (current != nullptr)
         { // go down the tree...
@@ -101,10 +101,18 @@ bool AVLTree::insert(int key, string value)
             if (key > current->getKey())
             {
                 current = current->getRight();
+                if (current != nullptr)
+                {
+                    treeStack.push(current);
+                }
             }
             else if (key < current->getKey())
             {
                 current = current->getLeft();
+                if (current != nullptr)
+                {
+                    treeStack.push(current);
+                }
             }
             else
             {
@@ -112,6 +120,7 @@ bool AVLTree::insert(int key, string value)
                 return false;
             }
         }
+        size++; // increments the size of the array
         // compare last node to key
         Node *parent = treeStack.top();
         isInsert = true;
@@ -127,6 +136,8 @@ bool AVLTree::insert(int key, string value)
         }
     }
     calculateHeight(treeStack);
+    checkBalance(treeStack); // checks balance
+    height = root->getHeight();
     return isInsert;
 }
 
@@ -150,7 +161,7 @@ stack<Node *> AVLTree::getTreeStack(Node *nodeIn) // this assumes that the node 
     return treeStack;
 }
 
-void AVLTree::calculateHeight(stack<Node *> &treeStack)
+void AVLTree::calculateHeight(stack<Node *> treeStack)
 {
     // goes through the current stack and calculates
     int currentHeight;
@@ -159,19 +170,19 @@ void AVLTree::calculateHeight(stack<Node *> &treeStack)
     {
         Node *current = treeStack.top();
         currentHeight = (max(current->getLeft()->getHeight(), current->getRight()->getHeight()) + 1);
+        current->setHeight(currentHeight);
         treeStack.pop(); // pops the current node off the tree stack
         // this lets current be updated to the next node on the list
     }
 }
 
+void AVLTree::checkBalance(stack<Node *> &treeStack)
+{                  // current is the node that is modified (rotated/added)
+    Node *problem; // will point to the problem node if found
 
-
-void AVLTree::checkBalance(Node *current)
-{                             // current is the node that is modified (rotated/added)
-    Node *problem;            // will point to the problem node if found
-    Node *origNode = current; // holds the original node that was passed for repeating the check
-    while (current != nullptr)
+    while (!treeStack.empty())
     { // moves up the tree and recalculates the balance of every node that it lands on
+        Node *current = treeStack.top();
         current->setBalance(current->getLeft()->getHeight() - current->getRight()->getHeight());
         if (current->getBalance() >= 2 || current->getBalance() <= -2)
         {
@@ -179,9 +190,8 @@ void AVLTree::checkBalance(Node *current)
             balancer(problem);
             stack<Node *> rootStack = getTreeStack(root);
             calculateHeight(rootStack);
-            current = origNode; // goes back to beginning to recalculate balances
         }
-        current = current->getParent();
+        treeStack.pop();
     }
 }
 

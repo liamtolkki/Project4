@@ -14,11 +14,11 @@ public:
 
     int getHeight();
 
-    void calculateHeight(stack<Node*> &treeStack);
+    void calculateHeight(stack<Node*> treeStack);
 
     stack<Node *> getTreeStack(Node * nodeIn);
 
-    void checkBalance(Node *current);
+    void checkBalance(stack <Node *> &TreeStack);
 
     void balancer(Node *current);
 
