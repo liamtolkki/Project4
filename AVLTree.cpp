@@ -1,12 +1,14 @@
 #include "AVLTree.h"
 #include <stack>
+#include "Node.h"
 using namespace std;
 
 AVLTree::AVLTree() // default constructor
 {
     root = nullptr; // sets the default root pointer to null when initialized
-    size = 0;       // default size = 0
-    height = -1;    // height is initially -1
+    target = nullptr;
+    size = 0;    // default size = 0
+    height = -1; // height is initially -1
 }
 
 AVLTree::~AVLTree() // default destructor
@@ -124,19 +126,26 @@ bool AVLTree::insert(int key, string value)
         // compare last node to key
         Node *parent = treeStack.top();
         isInsert = true;
+        current = new Node(key, value);
         if (key > parent->getKey())
         {
-            parent->setRight(new Node(key, value));
-            parent->getRight()->setParent(parent);
+            parent->setRight(current);
         }
         else
         {
-            parent->setLeft(new Node(key, value));
-            parent->getLeft()->setParent(parent);
+            parent->setLeft(current);
         }
+        current->setParent(parent);
     }
-    calculateHeight(treeStack);
+    calculateHeight(root);
     checkBalance(treeStack); // checks balance
+    if (target != nullptr)
+    {
+        treeStack = getTreeStack(target);
+        calculateHeight(root);
+        checkBalance(treeStack);
+    }
+    target = nullptr;
     height = root->getHeight();
     return isInsert;
 }
@@ -160,20 +169,20 @@ stack<Node *> AVLTree::getTreeStack(Node *nodeIn) // this assumes that the node 
     }
     return treeStack;
 }
-
-void AVLTree::calculateHeight(stack<Node *> treeStack)
+void AVLTree::calculateHeight(Node *current)
 {
-    // goes through the current stack and calculates
-    int currentHeight;
-    // top of treeStack is bottom of current subtree path
-    while (!treeStack.empty())
+    root->setHeight(calculateHeightHelp(root));
+}
+
+int AVLTree::calculateHeightHelp(Node *current)
+{
+    if (current == nullptr)
     {
-        Node *current = treeStack.top();
-        currentHeight = (max(current->getLeft()->getHeight(), current->getRight()->getHeight()) + 1);
-        current->setHeight(currentHeight);
-        treeStack.pop(); // pops the current node off the tree stack
-        // this lets current be updated to the next node on the list
+        return -1;
     }
+    int curHeight = (max(calculateHeightHelp(current->getRight()), calculateHeightHelp(current->getLeft())) + 1);
+    current->setHeight(curHeight);
+    return curHeight;
 }
 
 void AVLTree::checkBalance(stack<Node *> &treeStack)
@@ -184,12 +193,19 @@ void AVLTree::checkBalance(stack<Node *> &treeStack)
     { // moves up the tree and recalculates the balance of every node that it lands on
         Node *current = treeStack.top();
         current->setBalance(current->getLeft()->getHeight() - current->getRight()->getHeight());
+        if (target != nullptr)
+        {
+            if (target->getBalance() < 2 && target->getBalance() > -2)
+            {
+                target = nullptr; // clears out the target if it is back in balance
+            }
+        }
         if (current->getBalance() >= 2 || current->getBalance() <= -2)
         {
+            target = current;
             problem = current;
             balancer(problem);
-            stack<Node *> rootStack = getTreeStack(root);
-            calculateHeight(rootStack);
+            calculateHeight(root);
         }
         treeStack.pop();
     }
@@ -219,6 +235,15 @@ void AVLTree::balancer(Node *problem)
         hook->setLeft(subtreeA);
         problem->setLeft(subtreeB);
         problem->setRight(subtreeC);
+        // reroute the root's child to hook:
+        if (problemParent->getKey() > hook->getKey())
+        {
+            problemParent->setLeft(hook);
+        }
+        else
+        {
+            problemParent->setRight(hook);
+        }
         // DONE!
     }
 
@@ -242,6 +267,15 @@ void AVLTree::balancer(Node *problem)
         problem->setLeft(subtreeA);
         problem->setRight(subtreeB);
         hook->setRight(subtreeC);
+        // reroute the root's child to hook:
+        if (problemParent->getKey() > hook->getKey())
+        {
+            problemParent->setLeft(hook);
+        }
+        else
+        {
+            problemParent->setRight(hook);
+        }
         // DONE!
     }
 }

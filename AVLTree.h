@@ -14,11 +14,13 @@ public:
 
     int getHeight();
 
-    void calculateHeight(stack<Node*> treeStack);
+    void calculateHeight(Node *current);
 
-    stack<Node *> getTreeStack(Node * nodeIn);
+    int calculateHeightHelp(Node *current);
 
-    void checkBalance(stack <Node *> &TreeStack);
+    stack<Node *> getTreeStack(Node *nodeIn);
+
+    void checkBalance(stack<Node *> &TreeStack);
 
     void balancer(Node *current);
 
@@ -34,6 +36,7 @@ public:
 
 private:
     Node *root;
-    int size;   // holds the size of the AVL tree
-    int height; // height of the tree
+    int size;     // holds the size of the AVL tree
+    int height;   // height of the tree
+    Node *target; // holds the node that was rotated
 };
