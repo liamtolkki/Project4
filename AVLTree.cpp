@@ -280,6 +280,10 @@ void AVLTree::rightLeft(Node *problem)
 
 void AVLTree::leftRight(Node *problem)
 {
+    Node *focus = problem->getLeft(); // acts as problem node for first rotation
+    singleLeft(focus);                // rotates the left child left to make a straight line of nodes
+    singleRight(problem);             // rotates the line to make a balanced subtree
+    // DONE
 }
 
 void AVLTree::balancer(Node *problem)
@@ -291,10 +295,15 @@ void AVLTree::balancer(Node *problem)
         singleRight(problem);
     }
 
-    if ((problem->getBalance() == -2) && ((((problem->getLeft()->getBalance()) == -1) || (problem->getLeft()->getBalance() == 0))))
+    if ((problem->getBalance() == -2) && ((((problem->getRight()->getBalance()) == -1) || (problem->getRight()->getBalance() == 0))))
     {
         // single left rotation
         singleLeft(problem);
+    }
+    if ((problem->getBalance() == 2) && ((problem->getLeft()->getBalance()) == -1))
+    {
+        leftRight(problem);
+        // left right rotation
     }
 }
 
