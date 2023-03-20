@@ -310,10 +310,6 @@ void AVLTree::leftRight(Node *problem)
     // DONE
 }
 
-void nodeCheck(Node *nodeIn)
-{ // makes sure linking is done properly
-}
-
 void AVLTree::balancer(Node *problem)
 { // this applies the node balancing operations
 
@@ -338,7 +334,6 @@ void AVLTree::balancer(Node *problem)
         // Right left rotation
         rightLeft(problem);
     }
-    nodeCheck(problem);
 }
 
 int AVLTree::getHeight() // this returns the height (Time complexity: O(1))
