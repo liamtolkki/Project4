@@ -31,7 +31,6 @@ int main()
 	cout << "\n\n\n";
 	cout << tree << endl;
 
-
 	cout << tree.insert(175, "One hundred seventy-five"); // double rotate right
 	cout << tree.insert(35, "Thirty-five");
 	cout << tree.insert(34, "Thirty-four");		  // double rotate left
