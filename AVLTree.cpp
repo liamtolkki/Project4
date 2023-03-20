@@ -276,6 +276,10 @@ void AVLTree::singleLeft(Node *problem)
 
 void AVLTree::rightLeft(Node *problem)
 {
+    Node *focus = problem->getRight();
+    singleRight(focus);
+    singleLeft(problem);
+    // DONE
 }
 
 void AVLTree::leftRight(Node *problem)
@@ -304,6 +308,11 @@ void AVLTree::balancer(Node *problem)
     {
         leftRight(problem);
         // left right rotation
+    }
+    if ((problem->getBalance() == -2) && ((problem->getRight()->getBalance()) == 1))
+    {
+        // Right left rotation
+        rightLeft(problem);
     }
 }
 
