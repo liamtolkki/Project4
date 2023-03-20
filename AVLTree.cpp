@@ -211,6 +211,14 @@ void AVLTree::checkBalance(stack<Node *> &treeStack)
     }
 }
 
+void routeParent(Node *child, Node *parent)
+{ // this makes sure all nodes are properly linked
+    if (child != nullptr)
+    {
+        child->setParent(parent);
+    }
+}
+
 void AVLTree::singleRight(Node *problem)
 {
     // Next 5 lines hold the necessary rotation node data
@@ -220,13 +228,14 @@ void AVLTree::singleRight(Node *problem)
     Node *subtreeB = hook->getRight();    // holds the hook's right child
     Node *subtreeC = problem->getRight(); // the right child of the problem node
     // now for the rotation!
-    hook->setParent(problemParent);
+    routeParent(hook, problemParent);
     if (problemParent == nullptr)
     {
         root = hook; // sets the new root if needed
     }
     // rotate hook and problem node
     hook->setRight(problem);
+    problem->setParent(hook);
     // plug back in subtrees (if any)
     hook->setLeft(subtreeA);
     problem->setLeft(subtreeB);
@@ -240,6 +249,11 @@ void AVLTree::singleRight(Node *problem)
     {
         problemParent->setRight(hook);
     }
+    // sets parent vars if needed
+    routeParent(subtreeA, hook);
+    routeParent(subtreeB, problem);
+    routeParent(subtreeC, problem);
+
     // DONE!
 }
 
@@ -257,6 +271,7 @@ void AVLTree::singleLeft(Node *problem)
     }
     // swap hook and problem nodes:
     hook->setLeft(problem);
+    routeParent(problem, hook);
     problem->setParent(hook);
     // plug back in subtrees (if any)
     problem->setLeft(subtreeA);
@@ -271,6 +286,11 @@ void AVLTree::singleLeft(Node *problem)
     {
         problemParent->setRight(hook);
     }
+
+    routeParent(subtreeA, problem);
+    routeParent(subtreeB, problem);
+    routeParent(subtreeC, hook);
+
     // DONE!
 }
 
@@ -288,6 +308,10 @@ void AVLTree::leftRight(Node *problem)
     singleLeft(focus);                // rotates the left child left to make a straight line of nodes
     singleRight(problem);             // rotates the line to make a balanced subtree
     // DONE
+}
+
+void nodeCheck(Node *nodeIn)
+{ // makes sure linking is done properly
 }
 
 void AVLTree::balancer(Node *problem)
@@ -314,6 +338,7 @@ void AVLTree::balancer(Node *problem)
         // Right left rotation
         rightLeft(problem);
     }
+    nodeCheck(problem);
 }
 
 int AVLTree::getHeight() // this returns the height (Time complexity: O(1))
@@ -326,28 +351,40 @@ int AVLTree::getSize()
     return size;
 }
 
-ostream &treePrinter(ostream &os, Node *current, int height)
+int getDepth(Node *current)
+{
+    // simple program that returns depth of a node (for printing purposes)
+    int depth = 0;
+    while (current->getParent() != nullptr)
+    {
+        depth++;
+        current = current->getParent();
+    }
+    return depth;
+}
+
+ostream &treePrinter(ostream &os, Node *current, char brancher)
 {
     if (current != nullptr)
     {
-        treePrinter(os, current->getRight(), height);
-        for (int i = 0; i < (height - current->getHeight()); i++)
+        treePrinter(os, current->getRight(), '/');
+        for (int i = 0; i < getDepth(current); i++)
         {
             // adds proper spacing based on height:
             os << string("         ");
         }
         string string1 = to_string(current->getKey());
         string string2 = string(current->getValue());
-        string concat = string1 + ", " + string2 + "\n";
+        string concat = brancher + string1 + ", " + string2 + "\n";
         os << concat;
-        treePrinter(os, current->getLeft(), height);
+        treePrinter(os, current->getLeft(), '\\');
     }
     return os;
 }
 
 ostream &operator<<(ostream &os, const AVLTree &me)
 {
-    return treePrinter(os, me.root, me.height);
+    return treePrinter(os, me.root, '-');
 }
 
 bool AVLTree::find(int key, string &value)

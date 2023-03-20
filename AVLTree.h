@@ -23,7 +23,7 @@ public:
     void checkBalance(stack<Node *> &TreeStack);
 
     void balancer(Node *current);
-    
+
     void singleRight(Node *problem);
 
     void singleLeft(Node *problem);
@@ -34,7 +34,7 @@ public:
 
     int getSize();
 
-    friend ostream &treePrinter(ostream &os, Node *current, int height);
+    friend ostream &treePrinter(ostream &os, Node *current, char brancher);
 
     friend ostream &operator<<(ostream &os, const AVLTree &me);
 
