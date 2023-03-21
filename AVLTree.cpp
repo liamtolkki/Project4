@@ -384,7 +384,25 @@ ostream &operator<<(ostream &os, const AVLTree &me)
 
 bool AVLTree::find(int key, string &value)
 {
-    
+    Node *current = root;
+    while (current != nullptr)
+    {
+        if (current->getKey() < key)
+        {
+            current = current->getRight();
+        }
+        else if (current->getKey() > key)
+        {
+            current = current->getLeft();
+        }
+        else
+        { // found
+            value = current->getValue();
+            return true;
+        }
+    }
+    // if not found return false:
+    return false;
 }
 
 vector<string> AVLTree::findRange(int lowkey, int highkey)
