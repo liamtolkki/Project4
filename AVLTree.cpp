@@ -384,6 +384,7 @@ ostream &operator<<(ostream &os, const AVLTree &me)
 
 bool AVLTree::find(int key, string &value)
 {
+    
 }
 
 vector<string> AVLTree::findRange(int lowkey, int highkey)
