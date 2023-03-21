@@ -405,6 +405,27 @@ bool AVLTree::find(int key, string &value)
     return false;
 }
 
+void findRangeHelper(Node *current, vector<string> &vals, int low, int high)
+{ // uses a reference to the vector so each recursive call can modify the list
+  // the way i set it up, it gets values from low-high
+
+    if (current == nullptr)
+    {
+        return; // base case
+    }
+    findRangeHelper(current->getLeft(), vals, low, high);
+    if (current->getKey() >= low && current->getKey() <= high)
+    { // if between the parameters, add to the vector
+        vals.push_back(current->getValue());
+    }
+
+    findRangeHelper(current->getRight(), vals, low, high);
+}
+
 vector<string> AVLTree::findRange(int lowkey, int highkey)
 {
+    vector<string> vec;   // will hold values
+    Node *current = root; // start at root
+    findRangeHelper(root, vec, lowkey, highkey);
+    return vec;
 }
